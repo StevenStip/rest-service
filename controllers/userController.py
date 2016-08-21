@@ -14,17 +14,29 @@ class UserController():
     def createUser(self, name):
         u = User(name)
         self.session.add(u)
+        self.session.commit()
         return u
 
     def getUsers(self):
-        return self.session.query(User).order_by(User.id)
+        r = self.session.query(User).order_by(User.id)
+        print(type(r))
+        for user in r:
+            print("found")
+            print(user)
+        return [x for x in r]
+
+    def getUser(self, id=None, name=None):
+        if id is not None:
+            pass
 
 
-userController = UserController()
-userController.createUser('Steven')
-userController.createUser('Fiona')
-userController.session.commit()
-users = userController.getUsers()
-for u in users:
-    print(u)
+#userController = UserController()
+
+if __name__ == '__main__':
+    userController.createUser('Steven')
+    userController.createUser('Fiona')
+    userController.session.commit()
+    users = userController.getUsers()
+    for u in users:
+        print(u)
 

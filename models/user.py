@@ -11,6 +11,9 @@ class User(Base):
         self.name = name
         self.description = description
 
+    def __str__(self):
+        return self.__repr__()
+
     def __repr__(self):
         return "<User(name='{name}',description='{descr}')>".format(name=self.name, descr=self.description)
 
