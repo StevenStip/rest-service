@@ -10,9 +10,8 @@ class UserController():
         Base.metadata.create_all(Engine)
         self.session = Session()
 
-
-    def createUser(self, name):
-        u = User(name)
+    def createUser(self, name, description=None):
+        u = User(name, description)
         self.session.add(u)
         self.session.commit()
         return u
@@ -20,17 +19,20 @@ class UserController():
     def getUsers(self):
         r = self.session.query(User).order_by(User.id)
         print(type(r))
+        users = []
         for user in r:
-            print("found")
-            print(user)
-        return [x for x in r]
+            users.append(user)
+        return users
 
     def getUser(self, id=None, name=None):
         if id is not None:
-            pass
+            u =self.session.query(User).getFirst()
+            print(u)
+            print(type(u))
+            return u
 
 
-#userController = UserController()
+# userController = UserController()
 
 if __name__ == '__main__':
     userController.createUser('Steven')
@@ -39,4 +41,3 @@ if __name__ == '__main__':
     users = userController.getUsers()
     for u in users:
         print(u)
-

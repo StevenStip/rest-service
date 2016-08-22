@@ -1,6 +1,7 @@
-import os, sqlite3
+import os, sqlite3, json
 from flask import Flask, request
 from controllers.userController import UserController
+
 app = Flask(__name__)
 
 
@@ -13,14 +14,27 @@ def index():
 def getMeetings():
     return "Hello, World!"
 
+@app.route('/api/v1/user/<id>', methods=['get'])
+def getUser(id):
+    ucontroller = UserController()
+    user = ucontroller.getUser(id)
+    return json.dumps(user.as_dict())
+
 
 @app.route('/api/v1/users', methods=['GET'])
 def getUsers():
     ucontroller = UserController()
-    users =ucontroller.getUsers()
-    result = "h"
+    users = ucontroller.getUsers()
+    result={'users':[]}
+    for u in users:
+        result['users'].append(u.as_dict())
+        print(u)
     print(users)
-    return result
+    return json.dumps(result)
+
+@app.route('/api/v1/user', methods=['PUT'])
+def createUser():
+    pass
 
 @app.route('/api/v1/user/<name>', methods=['PUT'])
 def putUser(name):

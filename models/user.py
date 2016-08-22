@@ -14,6 +14,10 @@ class User(Base):
     def __str__(self):
         return self.__repr__()
 
+    def as_dict(self):
+        obj = {'id':self.id, 'name':self.name, 'description':self.description}
+        return obj
+
     def __repr__(self):
         return "<User(name='{name}',description='{descr}')>".format(name=self.name, descr=self.description)
 
